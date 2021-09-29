@@ -6,3 +6,6 @@ export interface AXIOS_CONFIG {
         url: string,
         headers: { },
 };
+
+export type BLOCK_NUMBER = number;
+export type BLOCK_HASH = string;

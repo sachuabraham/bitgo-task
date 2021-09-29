@@ -9,10 +9,10 @@ const axios = require('axios');
 export async function doGetApiCall(config:AXIOS_CONFIG) {
   try {
     const response = await axios(config);
-    const data = response.data;
-    console.log(data);
-  } catch (error) {
+    return response.data;
+  } catch (error:any) {
     console.log(error);
+    return false;
   }
 }
 
