@@ -6,11 +6,12 @@ import {
   getBlockHashFromBlockNumber,
   getBlockTxsFromBlockHash,
 } from './src/bitcoin_apis';
-import {BLOCK_NUMBER, BLOCK_TXS_RESPONSE} from './src/types';
+import {indexBlockTxs} from './src/tx_index';
+import {BITCOIN_TX, BLOCK_NUMBER, BLOCK_TXS_RESPONSE} from './src/types';
 
 // We can use redis / any other persistance layer in place here
 // in order to bypass rate limiting issues
-const cache:any = [];
+let cache:Array<BITCOIN_TX> = [];
 
 /**
  * Function to find ancestry list from a bitcoin block
@@ -27,12 +28,14 @@ async function findAncestry(blockNumber: BLOCK_NUMBER) {
     // is the rate limiting. For now calling it serially
     getBlockTxs = await getBlockTxsFromBlockHash(blockHash, index);
     if (getBlockTxs) {
-      cache.push(getBlockTxs.txs);
+      cache = [...cache, ...getBlockTxs.txs];
       console.log('tx count', index);
     }
     index += 25;
   } while (getBlockTxs && index < 150); // 150 just for testing purposes
-  console.log(cache);
+  const indexedTxs = await indexBlockTxs(cache);
+  // index all transactions with key address and output array of ancestors
+  console.log(indexedTxs);
 }
 
 
