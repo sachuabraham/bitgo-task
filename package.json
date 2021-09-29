@@ -1,0 +1,56 @@
+{
+  "name": "bitgo-task",
+  "version": "0.1.0",
+  "description": "Device Parser for colorado",
+  "main": "index.js",
+  "repository": "git@github.com/sachuabraham/bitgo-task.git",
+  "author": "Sachu Shaji Abraham <sachu.kothanil@gmail.com>",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "test": "TEST=true LOG_DISABLED=true nyc ava --verbose",
+    "start": "node dist/index.js ",
+    "start:dev": "nodemon index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.11",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "ava": "^3.14.0",
+    "eslint": "^7.11.0",
+    "eslint-config-google": "^0.14.0",
+    "husky": ">=4",
+    "lint-staged": ">=10",
+    "nyc": "^15.1.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.0.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": "eslint --cache --fix"
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "files": [
+      "**/**/*.test.ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.168",
+    "axios": "^0.21.1",
+    "dotenv": "^8.2.0",
+    "lodash": "^4.17.20",
+    "node-fetch": "^2.6.1",
+    "nodemon": "^2.0.7",
+    "winston": "^3.3.3"
+  }
+}
