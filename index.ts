@@ -55,6 +55,8 @@ async function findAncestry(blockNumber: BLOCK_NUMBER, count : number) {
   );
   const indexedTxs = await findAncestors(cache);
   // index all transactions with key address and output array of ancestors
+  console.log(
+      `Top ${count} Transactions from block ${blockNumber} are as follows`);
   for (let index = 0; index < indexedTxs.length && index < count; index++) {
     console.log(
         // eslint-disable-next-line max-len
