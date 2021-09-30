@@ -8,7 +8,7 @@ import {
   getBlockTxsFromBlockHash,
 } from './src/bitcoin_apis';
 import {BLOCK_NUMBER as blockNumber, TOP_ENTRIES} from './src/constants';
-import {indexBlockTxs} from './src/tx_index';
+import {findAncestors} from './src/find_ancestors';
 import {
   BITCOIN_TX, BLOCK_NUMBER,
   GET_BLOCK_TXS_RESPONSE,
@@ -53,7 +53,7 @@ async function findAncestry(blockNumber: BLOCK_NUMBER, count : number) {
   } while (getBlockTxs.txs.length &&
     index <txCount
   );
-  const indexedTxs = await indexBlockTxs(cache);
+  const indexedTxs = await findAncestors(cache);
   // index all transactions with key address and output array of ancestors
   for (let index = 0; index < indexedTxs.length && index < count; index++) {
     console.log(

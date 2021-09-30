@@ -1,9 +1,24 @@
 # BitGo Task
 
+The task is to find the top transactions in a particular bitcoin block ordered by their ancestor counts
+
+## Project structure
+
 ```
-
+├── README.md
+├── index.ts
+├── package.json
+├── src
+│   ├── bitcoin_apis.ts
+│   ├── constants.ts
+│   ├── find_ancestors.ts
+│   ├── types.ts
+│   └── utils
+│       └── rest_api_caller.ts
+├── tsconfig.json
+└── yarn.lock
+```
 ## Prerequisites
-
 ```sh
 - nodejs 12 +
 - yarn
@@ -11,15 +26,14 @@
 
 ## Before running
 
-The project needs some enviornment variables defined to run. Have a .env file created and placed at the root of the directory with the appropriate values. kindly note, there is no need for quotes for env. 
+The project needs some optional environment variables defined to run. Have a .env file created and placed at the root of the directory with the appropriate values. kindly note, there is no need for quotes for env. 
 
 ```sh
-PORT=""
+TOP_ENTRIES=20
+BLOCK_NUMBER=680002
 ```
 
-The different configurations with which the project is run can be seen in the constant file. Tweak the values according to your needs which includes changing the time interval with which the validations happen. The Auth keys for the project is defined in the platform api document.
-
-## How To Install
+## How To Run
 
 ```sh
 yarn install
@@ -31,7 +45,7 @@ yarn run start
 
 ```bash
 docker build . -t <container-name>
-docker run -d --name --p 8000:8000 <give-name> --env-file=.env <container-name>
+docker run --name <give-name> --env-file=.env <container-name>
 ```
 
 
