@@ -6,7 +6,6 @@ import {
   getBlockHashFromBlockNumber,
   getBlockTxsFromBlockHash,
 } from './src/bitcoin_apis';
-import {indexBlockTxs} from './src/tx_index';
 import {BITCOIN_TX, BLOCK_NUMBER, BLOCK_TXS_RESPONSE} from './src/types';
 
 // We can use redis / any other persistance layer in place here
@@ -33,9 +32,9 @@ async function findAncestry(blockNumber: BLOCK_NUMBER) {
     }
     index += 25;
   } while (getBlockTxs && index < 150); // 150 just for testing purposes
-  const indexedTxs = await indexBlockTxs(cache);
-  // index all transactions with key address and output array of ancestors
-  console.log(indexedTxs);
+  // const indexedTxs = await indexBlockTxs(cache);
+  // index all transactions with key address and output array of ansestors
+  console.log(cache);
 }
 
 

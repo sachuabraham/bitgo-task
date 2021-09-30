@@ -1,6 +1,5 @@
-/**
- * Common types
- */
+/* eslint-disable camelcase */
+
 export interface AXIOS_CONFIG {
         method: string,
         url: string,
@@ -10,18 +9,50 @@ export interface AXIOS_CONFIG {
 export type BLOCK_NUMBER = number;
 export type BLOCK_HASH = string;
 export interface BLOCK_TXS_RESPONSE {
-  txs: BITCOIN_TX, // need to fix this
+  txs: Array<BITCOIN_TX>,
   count: number,
 };
 
-export type BITCOIN_TX = any; // replace with actual tx structure
+export type TX_HASH = string;
 
-export type ADDRESS = string;
+export interface BLOCK_TX_INDEXER {
+  // Key is the transaction hash
+  // Value is the count of ancestors
+   [key : string]: number
+  }
 
-// Key is the address
-// Value is immediate ancestors of this address
-// export interface BLOCK_TX_INDEXER {
-//  [key : ADDRESS]: Array<ADDRESS>
-// }
-
-export type BLOCK_TX_INDEXER = any;
+// Transaction structure for BlockStream API
+export interface BITCOIN_TX {
+  txid: string;
+  version: number;
+  locktime: number;
+  vin?: (VIN)[] | null;
+  vout?: (VOUT)[] | null;
+  size: number;
+  weight: number;
+  fee: number;
+  status: STATUS;
+}
+export interface VIN {
+  txid: string;
+  vout: number;
+  prevout?: null;
+  scriptsig: string;
+  scriptsig_asm: string;
+  witness?: (string)[] | null;
+  is_coinbase: boolean;
+  sequence: number;
+}
+export interface VOUT {
+  scriptpubkey: string;
+  scriptpubkey_asm: string;
+  scriptpubkey_type: string;
+  scriptpubkey_address?: string | null;
+  value: number;
+}
+export interface STATUS {
+  confirmed: boolean;
+  block_height: number;
+  block_hash: string;
+  block_time: number;
+}
