@@ -20,14 +20,18 @@ let cache:Array<BITCOIN_TX> = [];
 /**
  * Function to find ancestry list from a bitcoin block
  * @param {BLOCK_NUMBER}blockNumber
+ * @param {number} count Number of top hits to return
  */
-async function findAncestry(blockNumber: BLOCK_NUMBER) {
+async function findAncestry(blockNumber: BLOCK_NUMBER, count : number) {
+  console.log(`Started Script for blocknumber ${blockNumber} for top ${count}`);
   const blockHash = await getBlockHashFromBlockNumber(blockNumber);
+  console.log(`Block hash for block ${blockNumber} is ${blockHash}`);
   const blockInfo = await getBlockInfoFromBlockHash(blockHash);
   let getBlockTxs: GET_BLOCK_TXS_RESPONSE;
-  let index = 2850;
+  let index = 0;
   const txCount = blockInfo?.tx_count;
-  console.log('Total Transaction Count found ', txCount);
+  console.log('Total Transaction Count found in the block', txCount);
+  console.log('Starting load transactions from block stream API');
 
   // Iterates through all txs in that block 25 at a time
   do {
@@ -37,7 +41,8 @@ async function findAncestry(blockNumber: BLOCK_NUMBER) {
     if (getBlockTxs.txs.length) {
       const txs = getBlockTxs.txs;
       cache = [...cache, ...txs];
-      console.log(`Loaded transaction from index ${index} to ${index +25}`);
+      console.log(
+          `Loaded block transactions from index ${index} to ${index +25}`);
     }
     index += 25;
   } while (getBlockTxs.txs.length &&
@@ -45,8 +50,12 @@ async function findAncestry(blockNumber: BLOCK_NUMBER) {
   );
   const indexedTxs = await indexBlockTxs(cache);
   // index all transactions with key address and output array of ancestors
-  console.log(indexedTxs);
+  for (let index = 0; index < indexedTxs.length && index < count; index++) {
+    console.log(
+        // eslint-disable-next-line max-len
+        `Top :#${index+1} Hash = ${indexedTxs[index].hash} Count = ${indexedTxs[index].count}`);
+  }
 }
 
 
-findAncestry(680000);
+findAncestry(680000, 10);
