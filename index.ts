@@ -7,6 +7,7 @@ import {
   getBlockInfoFromBlockHash,
   getBlockTxsFromBlockHash,
 } from './src/bitcoin_apis';
+import {BLOCK_NUMBER as blockNumber, TOP_ENTRIES} from './src/constants';
 import {indexBlockTxs} from './src/tx_index';
 import {
   BITCOIN_TX, BLOCK_NUMBER,
@@ -39,7 +40,7 @@ async function findAncestry(blockNumber: BLOCK_NUMBER, count : number) {
 
   // Iterates through all txs in that block 25 at a time
   do {
-    // we could use Promise.All here if we know exactly how
+    // we could use Promise.All here if we know exactly what
     // is the rate limiting. For now calling it serially
     getBlockTxs = await getBlockTxsFromBlockHash(blockHash, index);
     if (getBlockTxs.txs.length) {
@@ -62,4 +63,4 @@ async function findAncestry(blockNumber: BLOCK_NUMBER, count : number) {
 }
 
 
-findAncestry(68000000000000, 10);
+findAncestry(blockNumber, TOP_ENTRIES);
