@@ -25,6 +25,10 @@ let cache:Array<BITCOIN_TX> = [];
 async function findAncestry(blockNumber: BLOCK_NUMBER, count : number) {
   console.log(`Started Script for blocknumber ${blockNumber} for top ${count}`);
   const blockHash = await getBlockHashFromBlockNumber(blockNumber);
+  if (!blockHash) {
+    console.error(`Block Not found. Enter a valid block`);
+    process.exit(0);
+  }
   console.log(`Block hash for block ${blockNumber} is ${blockHash}`);
   const blockInfo = await getBlockInfoFromBlockHash(blockHash);
   let getBlockTxs: GET_BLOCK_TXS_RESPONSE;
@@ -58,4 +62,4 @@ async function findAncestry(blockNumber: BLOCK_NUMBER, count : number) {
 }
 
 
-findAncestry(680000, 10);
+findAncestry(68000000000000, 10);

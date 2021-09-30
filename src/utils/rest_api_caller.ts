@@ -11,7 +11,7 @@ export async function doGetApiCall(config:AXIOS_CONFIG) {
     const response = await axios(config);
     return response.data;
   } catch (error:any) {
-    console.log(error);
+    console.log('API Error:', error?.response?.data);
     return false;
   }
 }
