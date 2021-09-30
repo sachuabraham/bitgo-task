@@ -1,9 +1,45 @@
-import {BITCOIN_TX, BLOCK_TX_INDEXER} from './types';
+import {
+  ANCESTOR_COUNT,
+  BITCOIN_TX,
+  BLOCK_ANCESTOR_COUNT,
+  BLOCK_TX_INDEXER,
+} from './types';
+
+
+/**
+ * Comparator for index sort descending
+ * @param {ANCESTOR_COUNT} a
+ * @param {ANCESTOR_COUNT} b
+ * @return {number}
+ */
+function sorter(
+    a:ANCESTOR_COUNT,
+    b:ANCESTOR_COUNT) {
+  return b.count - a.count;
+}
+
+
+/**
+ * Convert index to array
+ * @param {BLOCK_TX_INDEXER} a
+ * @return {BLOCK_ANCESTOR_COUNT}
+ */
+function indexToArray(
+    a:BLOCK_TX_INDEXER) {
+  const ancestorCounts: BLOCK_ANCESTOR_COUNT = [];
+  Object.keys(a).map((key: string) => {
+    ancestorCounts.push({
+      hash: key,
+      count: a[key],
+    });
+  });
+  return ancestorCounts;
+}
 
 /**
  * Function to index the txs in the block from cache
  * @param {Array<BITCOIN_TX>} cache
- * @return {BLOCK_TX_INDEXER}
+ * @return {BLOCK_ANCESTOR_COUNT}
  */
 export async function indexBlockTxs(
     cache: Array<BITCOIN_TX>,
@@ -28,5 +64,6 @@ export async function indexBlockTxs(
       indexer[tx.txid] += ancestorCount;
     }
   }
-  return indexer;
+  const ancestorCounts = indexToArray(indexer).sort(sorter);
+  return ancestorCounts;
 }

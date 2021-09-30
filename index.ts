@@ -25,7 +25,7 @@ async function findAncestry(blockNumber: BLOCK_NUMBER) {
   const blockHash = await getBlockHashFromBlockNumber(blockNumber);
   const blockInfo = await getBlockInfoFromBlockHash(blockHash);
   let getBlockTxs: GET_BLOCK_TXS_RESPONSE;
-  let index = 0;
+  let index = 2850;
   const txCount = blockInfo?.tx_count;
   console.log('Total Transaction Count found ', txCount);
 
@@ -44,7 +44,7 @@ async function findAncestry(blockNumber: BLOCK_NUMBER) {
     index <txCount
   );
   const indexedTxs = await indexBlockTxs(cache);
-  // index all transactions with key address and output array of ansestors
+  // index all transactions with key address and output array of ancestors
   console.log(indexedTxs);
 }
 

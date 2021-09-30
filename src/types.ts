@@ -20,6 +20,11 @@ export interface BLOCK_TX_INDEXER {
   // Value is the count of ancestors
   [key: string]: number;
 }
+export interface ANCESTOR_COUNT {
+  hash : string,
+  count : number
+}
+export type BLOCK_ANCESTOR_COUNT = Array<ANCESTOR_COUNT>;
 
 export interface GET_BLOCK_TXS_RESPONSE {
   txs: Array<BITCOIN_TX>;
