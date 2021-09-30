@@ -45,7 +45,7 @@ yarn run start
 
 ```bash
 docker build . -t <container-name>
-docker run --name <give-name> --env-file=.env <container-name>
+docker run  --env-file=.env <container-name>
 ```
 
 
